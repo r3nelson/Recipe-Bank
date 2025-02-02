@@ -1,0 +1,6 @@
+If I make changes to my models.py file later the table in my postgres db will not update automatically.
+
+I can add these changes to my database using alembic
+
+alembic revision --autogenerate -m "Added new column"
+alembic upgrade head
