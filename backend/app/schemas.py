@@ -1,19 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 
 class CreateRecipe(BaseModel):
     title: str
-    haveCooked: bool  
-    ingredients: List[str]
-    instructions: List[str]
+    haveCooked: bool  = False
+    ingredients: List[str] = []
+    instructions: List[str] = []
     cookTime: Optional[int] = None
     rating: Optional[float] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 class ReadRecipe(CreateRecipe):
     id: int
 
-    class Config:
-        from_attributes = True  # Allows reading ORM objects. Pydantic models by default only works with dictionaries
+    model_config = ConfigDict(from_attributes=True)
 
 class UpdateRecipe(BaseModel):
     title: Optional[str] = None
@@ -23,6 +24,5 @@ class UpdateRecipe(BaseModel):
     cookTime: Optional[int] = None
     rating: Optional[float] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
