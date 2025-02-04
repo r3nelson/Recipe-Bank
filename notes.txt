@@ -4,3 +4,8 @@ I can add these changes to my database using alembic
 
 alembic revision --autogenerate -m "Added new column"
 alembic upgrade head
+
+stick to async for I/O bound operations
+sync is fine for CPU based calculations
+if you have to use sync with async look into allocating another thread.
+
