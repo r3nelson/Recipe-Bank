@@ -8,10 +8,6 @@ from typing import List
 
 router = APIRouter()
 
-# def validate_rating(rating):
-#     if rating < 0 or rating > 5:
-#         return f"Rating must be 0-5\nRating: ${rating}" 
-
 @router.get("/recipes/{recipe_id}", response_model=ReadRecipe)
 async def get_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
     # Use select for async queries
