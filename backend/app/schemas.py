@@ -1,13 +1,20 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional, List
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional, List, Literal
+
+class Ingredient(BaseModel):
+    name: str
+    measurement_type: Literal["", "cup", "tbsp", "tsp", "g", "kg", "oz", "lb", "ml", "l","pt","qt","gal", "fl oz", "kg", "mg"]
+    quantity: float = Field(..., gt=0)
 
 class CreateRecipe(BaseModel):
-    title: str
-    haveCooked: bool  = False
-    ingredients: List[str] = []
-    instructions: List[str] = []
+    name: str
+    haveCooked: bool = False
+    ingredients: List[Ingredient] = Field(..., min_length=1)
+    directions: List[str] = Field(..., min_length=1)
+    quantity: Optional[float] = None
+    prepTime: Optional[int] = None
     cookTime: Optional[int] = None
-    rating: Optional[float] = None
+    rating: Optional[float] = Field(0, ge=0, le=5)
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -17,12 +24,14 @@ class ReadRecipe(CreateRecipe):
     model_config = ConfigDict(from_attributes=True)
 
 class UpdateRecipe(BaseModel):
-    title: Optional[str] = None
+    name: Optional[str] = None
     haveCooked: Optional[bool] = None
-    ingredients: Optional[List[str]] = None
-    instructions: Optional[List[str]] = None
+    ingredients: List[Ingredient] = Field(None, min_length=1)
+    directions: Optional[List[str]] = Field(None, min_length=1)
+    quantity: Optional[float] = None
+    prepTime: Optional[int] = None
     cookTime: Optional[int] = None
-    rating: Optional[float] = None
+    rating: Optional[float] = Field(None, ge=0, le=5)
 
     model_config = ConfigDict(from_attributes=True)
 
