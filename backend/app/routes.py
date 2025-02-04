@@ -50,7 +50,7 @@ async def update_recipe(recipe_id: int, updated_recipe: UpdateRecipe,  db: Async
     await db.refresh(recipe)
     return recipe
     
-@router.delete("recipes/{recipe_id}", response_model=ReadRecipe)
+@router.delete("/recipes/{recipe_id}", response_model=ReadRecipe)
 async def delete_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
     recipe = await db.get(DBRecipe, recipe_id)
 
