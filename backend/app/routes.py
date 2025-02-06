@@ -34,18 +34,19 @@ async def create_recipe(recipe: CreateRecipe, db: AsyncSession = Depends(get_db)
     # Convert DBRecipe back to a Pydantic model (ReadRecipe) for the response
     return ReadRecipe.model_validate(db_recipe)
 
-@router.patch("/recipes/{recipe_id}", response_model=ReadRecipe)
+@router.patch("/recipes/{recipe_id}", response_model=ReadRecipe) 
 async def update_recipe(recipe_id: int, updated_recipe: UpdateRecipe,  db: AsyncSession = Depends(get_db)):
     recipe = await db.get(DBRecipe, recipe_id)
-
+    
     if not recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    
+
     # update only the provided fields
     update_data = updated_recipe.model_dump(exclude_unset=True)
+
     for key, value in update_data.items():
         setattr(recipe, key, value)
-
+    
     await db.commit()
     await db.refresh(recipe)
     return recipe
