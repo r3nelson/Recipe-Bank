@@ -1,5 +1,6 @@
+import RecipeCard from "./components/RecipeCard";
 function App() {
-  return <div>Hello World</div>;
+  return <RecipeCard></RecipeCard>;
 }
 
 export default App;
