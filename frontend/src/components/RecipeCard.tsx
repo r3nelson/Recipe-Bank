@@ -1,31 +1,54 @@
-// this will be the card that shows an entire recipe
-// Title, ingredients, directions, image
-import { fetchRecipes } from "../api/recipeAPI";
 import { Recipe } from "../types/recipe";
+import { fetchRecipe } from "../api/recipeAPI";
 import { useEffect, useState } from "react";
 
-export default function RecipeCard() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+type RecipeCardProps = {
+  recipe_id: number;
+};
+
+export default function RecipeCard({ recipe_id }: RecipeCardProps) {
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
 
   useEffect(() => {
-    async function loadRecipes() {
-      const data = await fetchRecipes();
-      setRecipes(data);
-      console.log(recipes);
+    async function loadRecipe() {
+      const data = await fetchRecipe(recipe_id);
+      setRecipe(data);
     }
-    loadRecipes();
-  }, []);
+    loadRecipe();
+  }, [recipe_id]);
 
   return (
     <div>
-      <h2>Recipes</h2>
-      <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe.id}>
-            <strong>{recipe.name}</strong> - Rating: {recipe.rating ?? "N/A"}
-          </li>
-        ))}
-      </ul>
+      {recipe ? (
+        <div>
+          <h2>{recipe.name}</h2>
+          <p>
+            quantity: {recipe.quantity} | prep time: {recipe.prepTime}mins |
+            cook time: {recipe.cookTime}mins
+          </p>
+          <p>Cooked: {recipe.haveCooked ? "Yes" : "No"}</p>
+          <div>
+            <h3>Ingredients</h3>
+            <ul>
+              {recipe.ingredients.map((ing, index) => (
+                <li key={index}>
+                  {`${ing.quantity} ${ing.measurement_type} ${ing.name}`}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Directions</h3>
+            <ol>
+              {recipe.directions.map((direction, index) => (
+                <li key={index}>{direction}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }
