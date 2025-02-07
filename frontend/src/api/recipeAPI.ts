@@ -15,3 +15,16 @@ export async function fetchRecipes(): Promise<Recipe[]> {
     return [];
   }
 }
+
+export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
+  const response = await fetch(`${baseURL}${recipe_id}`);
+  try {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch recipes: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    return null;
+  }
+}
