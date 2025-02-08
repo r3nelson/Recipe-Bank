@@ -4,10 +4,12 @@ export default function Navbar() {
   const { recipes } = useGetRecipes();
 
   return (
-    <div className=" flex items-center">
+    <div className="flex justify-between items-center border border-black w-screen min-h-20 p-10">
       <h1 className="text-2xl">Recipe Bank</h1>
-      <p>Recipes: {recipes.length}</p>
-      <p>Cooked: {recipes.filter((r) => r.haveCooked == true).length}</p>
+      <p className="text-xl">Recipes: {recipes.length}</p>
+      <p className="text-xl">
+        Cooked: {recipes.filter((r) => r.haveCooked == true).length}
+      </p>
     </div>
   );
 }
