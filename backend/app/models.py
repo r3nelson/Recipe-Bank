@@ -12,10 +12,11 @@ class Recipe(Base):
     haveCooked = Column(Boolean, default=False)
     ingredients = Column(JSONB, nullable=False) 
     directions = Column(ARRAY(String), nullable=False)
-    quantity = Column(Float, nullable=True)
+    quantityAndType = Column(String, nullable=True)
     prepTime = Column(Integer, nullable=True)
     cookTime = Column(Integer, nullable=True)
     rating = Column(Float, nullable=True) 
+    imgURL = Column(String, nullable=True)
 
     __table_args__ = (
         CheckConstraint("rating >= 0 AND rating <= 5", name="rating_range"),
