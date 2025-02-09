@@ -9,3 +9,11 @@ stick to async for I/O bound operations
 sync is fine for CPU based calculations
 if you have to use sync with async look into allocating another thread.
 
+Whenever you try to connect frontend to backend make sure to setup CORS or you won't be able to connect.
+
+http://localhost:8000 and http://0.0.0.0:8000 are not the same thing
+
+if you get an error saying there are too many files being checked on frontend. On linux you might have to increase amount of files that can be watched. Just google how, but it will be inotify something.
+
+if you have an endpoint on backend ("http://localhost:8000/api/recipes/")
+calling "http://localhost:8000/api/recipes" on frontend will not work (missing slash at end)
