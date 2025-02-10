@@ -4,29 +4,13 @@ export type Recipe = {
   haveCooked: boolean;
   ingredients: Ingredient[];
   directions: string[];
-  quantity?: number;
+  quantityAndType?: number;
   prepTime?: number;
   cookTime?: number;
-  rating?: number | null;
+  rating?: number;
+  imgURL?: string;
 };
 
 export type Ingredient = {
-  name: string;
-  measurement_type:
-    | ""
-    | "cup"
-    | "tbsp"
-    | "tsp"
-    | "g"
-    | "kg"
-    | "oz"
-    | "lb"
-    | "ml"
-    | "l"
-    | "pt"
-    | "qt"
-    | "gal"
-    | "fl oz"
-    | "mg";
-  quantity: number;
+  nameAndQuantity: string;
 };
