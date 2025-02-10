@@ -1,21 +1,29 @@
 type GeneralRecipeInfoProps = {
   name: string;
-  quantity?: number;
+  quantityAndType?: number;
   prepTime?: number;
   cookTime?: number;
 };
 
 export default function GeneralRecipeInfo({
   name,
-  quantity,
+  quantityAndType,
   prepTime,
   cookTime,
 }: GeneralRecipeInfoProps) {
+  //   let totalTime: number | null;
+  //   if (prepTime && cookTime) {
+  //     totalTime = prepTime + cookTime;
+  //   } else {
+  //     totalTime = null;
+  //   }
+  //   {totalTime ? `| Total Time ${totalTime} min` : ""}
+
   return (
     <>
-      <h2 className="text-xl font-bold">{name}</h2>
+      <h2 className="text-2xl font-bold">{name}</h2>
       <p>
-        Quantity: {quantity} | Prep Time: {prepTime} min | Cook Time: {cookTime}{" "}
+        {quantityAndType} | prep time: {prepTime} min | cook time: {cookTime}{" "}
         min
       </p>
     </>

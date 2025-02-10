@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
-      <RecipeCard recipe_id={3}></RecipeCard>
+      <RecipeCard recipe_id={1}></RecipeCard>
     </>
   );
 }

@@ -23,7 +23,7 @@ export default function Ingredients({ ingredients }: IngredientProps) {
             }`}
             key={index}
           >
-            {`${ing.quantity} ${ing.measurement_type} ${ing.name}`}
+            {`${ing.nameAndQuantity}`}
           </li>
         );
       })}
