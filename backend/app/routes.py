@@ -1,12 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
+from fastapi.responses import FileResponse
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Recipe as DBRecipe
 from schemas import CreateRecipe, ReadRecipe, UpdateRecipe
 from db import get_db
 from typing import List
+import mimetypes
+import shutil
+import os
 
 router = APIRouter()
+
+UPLOAD_DIR = "../frontend/public/images"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.get("/recipes/{recipe_id}", response_model=ReadRecipe)
 async def get_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
@@ -17,7 +24,7 @@ async def get_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Recipe not found")
     return recipe
 
-@router.get("/recipes/",response_model=List[ReadRecipe])
+@router.get("/recipes",response_model=List[ReadRecipe])
 async def get_all_recipes(db: AsyncSession = Depends(get_db)):
     res = await db.execute(select(DBRecipe))
     recipes = res.scalars().all()
@@ -61,3 +68,23 @@ async def delete_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
     await db.delete(recipe)
     await db.commit()
     return recipe
+
+# later on need to think about how to handle what happens if you upload two files with same name
+# may not be an issue if you seperate photos by Users
+@router.post("/upload")
+async def upload_file(file:UploadFile = File(None)):
+    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return {"filename": file.filename, "filepath": file_path}
+
+@router.get("/image/{filename}")
+async def get_image(filename: str):
+    file_path = os.path.join(UPLOAD_DIR, filename)
+
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    media_type, _ = mimetypes.guess_type(file_path)
+    return FileResponse(file_path, media_type=media_type or "application/octet-stream")
