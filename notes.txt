@@ -1,3 +1,15 @@
+start docker container: cd to backend
+docker-compose up -d
+will have to add in some data using POST request
+Should mount volume at some point to persist data.
+
+start backend by: cd to backend folder
+source venv/vbin/activate (venv is name of virtual enviornment)
+fastapi run app/main.py  (app is folder main.py is file in folder)
+
+start frontend: cd to frontend folder
+npm run dev
+
 If I make changes to my models.py file later the table in my postgres db will not update automatically.
 
 I can add these changes to my database using alembic

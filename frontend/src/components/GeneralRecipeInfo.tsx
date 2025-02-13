@@ -1,6 +1,6 @@
 type GeneralRecipeInfoProps = {
   name: string;
-  quantityAndType?: number;
+  quantityAndType?: string;
   prepTime?: number;
   cookTime?: number;
 };

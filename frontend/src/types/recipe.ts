@@ -4,7 +4,7 @@ export type Recipe = {
   haveCooked: boolean;
   ingredients: Ingredient[];
   directions: string[];
-  quantityAndType?: number;
+  quantityAndType?: string;
   prepTime?: number;
   cookTime?: number;
   rating?: number;
