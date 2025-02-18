@@ -12,5 +12,9 @@ export default function useRecipeNavigation(totalRecipes: number) {
     else setRecipeId((id) => id + 1);
   }
 
-  return { recipe_id, handlePrev, handleNext };
+  function goTo(id: number) {
+    setRecipeId(id);
+  }
+
+  return { recipe_id, handlePrev, handleNext, goTo };
 }
