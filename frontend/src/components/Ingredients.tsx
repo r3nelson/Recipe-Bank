@@ -1,8 +1,9 @@
-import { Ingredient } from "../types/recipe";
+// import { Ingredient } from "../types/recipe";
 
 type IngredientProps = {
-  ingredients: Ingredient[];
+  ingredients: string[];
 };
+
 export default function Ingredients({ ingredients }: IngredientProps) {
   return (
     <ul
@@ -21,7 +22,7 @@ export default function Ingredients({ ingredients }: IngredientProps) {
             }`}
             key={index}
           >
-            {`${ing.nameAndQuantity}`}
+            {`${ing}`}
           </li>
         );
       })}

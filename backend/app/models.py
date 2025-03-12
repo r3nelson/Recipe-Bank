@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, ARRAY, CheckConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -10,7 +9,7 @@ class Recipe(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     haveCooked = Column(Boolean, default=False)
-    ingredients = Column(JSONB, nullable=False) 
+    ingredients = Column(ARRAY(String), nullable=False) 
     directions = Column(ARRAY(String), nullable=False)
     quantityAndType = Column(String, nullable=True)
     prepTime = Column(Integer, nullable=True)

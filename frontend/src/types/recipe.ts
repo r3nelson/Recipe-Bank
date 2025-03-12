@@ -2,7 +2,7 @@ export type Recipe = {
   id: number;
   name: string;
   haveCooked: boolean;
-  ingredients: Ingredient[];
+  ingredients: string[];
   directions: string[];
   quantityAndType?: string;
   prepTime?: number;
@@ -11,6 +11,6 @@ export type Recipe = {
   imgURL?: string;
 };
 
-export type Ingredient = {
-  nameAndQuantity: string;
-};
+// export type Ingredient = {
+//   nameAndQuantity: string;
+// };
