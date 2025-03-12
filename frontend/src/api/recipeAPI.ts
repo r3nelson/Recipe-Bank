@@ -1,6 +1,7 @@
 import { Recipe } from "../types/recipe";
 
-const baseURL = "http://0.0.0.0:8000/api/recipes";
+// const baseURL = "http://0.0.0.0:8000/api/recipes";
+const baseURL = "http://localhost:8000/api/recipes";
 
 export async function fetchRecipes(): Promise<Recipe[]> {
   const response = await fetch(baseURL);
