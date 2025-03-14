@@ -50,3 +50,19 @@ export async function createRecipe(recipe: Recipe) {
     console.error("Error:", error);
   }
 }
+
+export async function deleteRecipe(recipe_id: number) {
+  try {
+    const response = await fetch(`${baseURL}/${recipe_id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete recipe with ID ${recipe_id}`);
+    }
+
+    console.log(`Recipe with ID ${recipe_id} deleted successfully`);
+  } catch (error) {
+    console.error(error);
+  }
+}
