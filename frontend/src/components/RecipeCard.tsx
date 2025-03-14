@@ -47,7 +47,7 @@ export default function RecipeCard({ recipe_id }: RecipeCardProps) {
 
           <div className="m-5">
             <SectionHeader header="Directions"></SectionHeader>
-            <div className="flex items-center">
+            <div className="flex justify-between items-center">
               <div>
                 <Directions directions={recipe.directions}></Directions>
               </div>

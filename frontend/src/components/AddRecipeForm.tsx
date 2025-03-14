@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Recipe, Ingredient } from "../types/recipe";
+import { Recipe } from "../types/recipe";
 import ImageUpload from "./ImageUpload";
 import Required from "./Required";
 
 type AddRecipeFormProps = {
   onSubmit: (recipe: Recipe) => void;
   onCancel: () => void;
-  //   UploadImage: () => void;
 };
 
 export default function AddRecipeForm({
@@ -15,7 +14,7 @@ export default function AddRecipeForm({
 }: AddRecipeFormProps) {
   const [name, setName] = useState("");
   const [haveCooked, setHaveCooked] = useState(false);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<string[]>([]);
   const [newIngredient, setNewIngredient] = useState("");
   const [directions, setDirections] = useState<string[]>([]);
   const [newDirection, setNewDirection] = useState("");
@@ -27,7 +26,7 @@ export default function AddRecipeForm({
 
   function handleAddIngredient() {
     if (newIngredient.trim() !== "") {
-      setIngredients([...ingredients, { nameAndQuantity: newIngredient }]);
+      setIngredients([...ingredients, newIngredient]);
       setNewIngredient("");
     }
   }
@@ -48,7 +47,7 @@ export default function AddRecipeForm({
       formData.append("file", file);
 
       try {
-        const response = await fetch("http://0.0.0.0:8000/api/upload", {
+        const response = await fetch("http://127.0.0.1:8000/api/upload", {
           method: "POST",
           body: formData,
         });
@@ -59,6 +58,7 @@ export default function AddRecipeForm({
 
         const data = await response.json();
         uploadedImageUrl = `images/${data.filename}`;
+        console.log(uploadedImageUrl);
         return uploadedImageUrl;
       } catch (error) {
         console.error("Upload error:", error);
@@ -88,6 +88,7 @@ export default function AddRecipeForm({
     if (!newRecipe.ingredients || !newRecipe.directions) return;
 
     onSubmit(newRecipe);
+    window.location.reload();
   }
 
   return (
@@ -126,7 +127,7 @@ export default function AddRecipeForm({
         </div>
         <ul>
           {ingredients.map((ing, index) => (
-            <li key={index}>{ing.nameAndQuantity}</li>
+            <li key={index}>{ing}</li>
           ))}
         </ul>
       </label>
