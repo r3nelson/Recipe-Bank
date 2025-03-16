@@ -30,13 +30,20 @@ async def get_all_recipes(db: AsyncSession = Depends(get_db)):
     recipes = res.scalars().all()
     return recipes
 
+@router.get("/recipes-ids",response_model=List[int])
+async def get_all_recipe_ids(db: AsyncSession = Depends(get_db)):
+    res = await db.execute(select(DBRecipe.id))
+    recipes_ids = res.scalars().all()
+    recipes_ids.sort()
+    return recipes_ids
+
 @router.post("/recipes", response_model=ReadRecipe)
 async def create_recipe(recipe: CreateRecipe, db: AsyncSession = Depends(get_db)):
     db_recipe = DBRecipe(**recipe.model_dump())
     
     db.add(db_recipe)
-    await db.commit()  # Commit asynchronously
-    await db.refresh(db_recipe)  # Refresh asynchronously
+    await db.commit()  
+    await db.refresh(db_recipe)  
 
     # Convert DBRecipe back to a Pydantic model (ReadRecipe) for the response
     return ReadRecipe.model_validate(db_recipe)
