@@ -10,7 +10,7 @@ export default function DeleteButton({
   return (
     <button
       onClick={() => onDelete(recipe_id)}
-      className="bg-red-500 text-white px-3 py-1 rounded-md"
+      className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer  hover:bg-red-700 transition"
     >
       Delete Recipe
     </button>

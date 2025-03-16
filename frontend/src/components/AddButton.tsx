@@ -6,6 +6,10 @@ import { createRecipe } from "../api/recipeAPI";
 export default function AddButton() {
   const [showForm, setShowForm] = useState(false);
 
+  function toggleForm() {
+    setShowForm(!showForm);
+  }
+
   async function handleSubmit(recipe: Recipe) {
     await createRecipe(recipe);
     setShowForm(false);
@@ -14,8 +18,8 @@ export default function AddButton() {
   return (
     <div>
       <button
-        onClick={() => setShowForm(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+        onClick={toggleForm}
+        className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700 transition "
       >
         Add Recipe
       </button>
