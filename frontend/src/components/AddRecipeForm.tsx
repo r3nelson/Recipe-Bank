@@ -87,7 +87,8 @@ export default function AddRecipeForm({
 
     if (!newRecipe.ingredients || !newRecipe.directions) return;
 
-    onSubmit(newRecipe);
+    // wait for sumission to complete before reload
+    await onSubmit(newRecipe);
     window.location.reload();
   }
 

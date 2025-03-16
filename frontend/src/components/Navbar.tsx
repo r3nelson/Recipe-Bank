@@ -12,7 +12,12 @@ export default function Navbar({ recipes }: NavbarProps) {
           Cooked: {recipes.filter((r) => r.haveCooked == true).length}
         </p>
       </div>
-      <h1 className="text-2xl">MYCookBook</h1>
+      <div>
+        <h1 className="text-2xl">MYCookBook</h1>
+        <a href="../../public/images/recipe-book.png" title="recipe book icons">
+          {/* Recipe book icons created by BZZRINCANTATION - Flaticon */}
+        </a>
+      </div>
       <div className="w-14 h-14 bg-blue-300 text-white flex items-center justify-center rounded-full text-lg font-bold">
         MV
       </div>

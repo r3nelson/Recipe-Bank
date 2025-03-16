@@ -23,6 +23,7 @@ export default function AllRecipes({
     recipeNamesAndIds.push([recipe.name.toLowerCase(), recipe.id])
   );
   recipeNamesAndIds.sort();
+  const numCols = recipeNamesAndIds.length <= 15 ? 3 : 4;
 
   return (
     <div
@@ -34,27 +35,33 @@ export default function AllRecipes({
           <SearchBar
             recipes={recipes}
             onHideRecipesChange={setHideRecipes}
+            updateRecipeId={updateRecipeId}
           ></SearchBar>
 
           {!hideRecipes && (
             <>
               <SectionHeader header="All Recipes"></SectionHeader>
-              <ul className="text-md grid grid-cols-3">
-                {recipeNamesAndIds.map((recipe, index) => (
-                  <li
-                    className="cursor-pointer hover:bg-gray-200"
-                    key={index}
-                    onClick={() => updateRecipeId(recipe[1])}
-                  >
-                    {recipe[0]}
-                  </li>
-                ))}
+              <ul className={`text-md    grid grid-cols-${numCols}`}>
+                {recipeNamesAndIds.map((recipe, index) => {
+                  //   const isLastCol = (index + 1) % numCols === 0;
+                  return (
+                    <li
+                      className={`cursor-pointer hover:bg-gray-200`}
+                      key={index}
+                      onClick={() => updateRecipeId(recipe[1])}
+                    >
+                      {recipe[0]}
+                    </li>
+                  );
+                })}
               </ul>
             </>
           )}
         </div>
       ) : (
-        "All Recipes"
+        <button className="border p-2 m-5 cursor-pointer hover:bg-gray-200">
+          All Recipes
+        </button>
       )}
     </div>
   );
