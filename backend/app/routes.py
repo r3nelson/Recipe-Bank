@@ -11,7 +11,6 @@ import shutil
 import os
 
 router = APIRouter()
-
 UPLOAD_DIR = "../frontend/public/images"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -22,10 +21,12 @@ async def get_recipe(recipe_id: int, db: AsyncSession = Depends(get_db)):
 
     if not recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
+    
     return recipe
 
 @router.get("/recipes",response_model=List[ReadRecipe])
-async def get_all_recipes(db: AsyncSession = Depends(get_db)):
+async def get_all_recipes( db: AsyncSession = Depends(get_db)):
+    
     res = await db.execute(select(DBRecipe))
     recipes = res.scalars().all()
     return recipes
@@ -40,7 +41,6 @@ async def get_all_recipe_ids(db: AsyncSession = Depends(get_db)):
 @router.post("/recipes", response_model=ReadRecipe)
 async def create_recipe(recipe: CreateRecipe, db: AsyncSession = Depends(get_db)):
     db_recipe = DBRecipe(**recipe.model_dump())
-    
     db.add(db_recipe)
     await db.commit()  
     await db.refresh(db_recipe)  
@@ -54,6 +54,8 @@ async def update_recipe(recipe_id: int, updated_recipe: UpdateRecipe,  db: Async
     
     if not recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
+    # if recipe.user_id != current_user.id:
+    #     raise HTTPException(status_code=403, detail="Not authorized to update this recipe")
 
     # update only the provided fields
     update_data = updated_recipe.model_dump(exclude_unset=True)

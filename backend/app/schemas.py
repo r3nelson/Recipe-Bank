@@ -1,9 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional, List
 
-# class Ingredient(BaseModel):
-#     nameAndQuantity: str
-
 class CreateRecipe(BaseModel):
     name: str
     haveCooked: bool = False
@@ -25,8 +22,8 @@ class ReadRecipe(CreateRecipe):
 class UpdateRecipe(BaseModel):
     name: Optional[str] = None
     haveCooked: Optional[bool] = None
-    ingredients: List[str] = Field(None, min_length=1)
-    directions: Optional[List[str]] = Field(None, min_length=1)
+    ingredients: Optional[List[str]] = None
+    directions: Optional[List[str]] = None
     quantityAndType: Optional[str] = None
     prepTime: Optional[int] = None
     cookTime: Optional[int] = None
