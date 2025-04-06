@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from routes import router
-from db import create_tables 
-
+from .db import create_tables 
+from .routes.auth_routes import auth_router
+from .routes.recipe_routes import recipe_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,5 +25,7 @@ app.add_middleware(CORSMiddleware,
     allow_headers=["*"]
     )
 
-app.include_router(router, prefix='/api', tags=['Recipes'])
+app.include_router(auth_router, prefix='/auth', tags=['Auth'])
+app.include_router(recipe_router, prefix='/api', tags=['Recipes'])
+
 

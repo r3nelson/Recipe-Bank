@@ -1,9 +1,11 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from .models import Base
+from .config import DATABASE_URL
+
 
 # Database URL from Docker (using asyncpg for PostgreSQL)
-SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:postgres@localhost:5432/recipe_db"
+SQLALCHEMY_DATABASE_URL = DATABASE_URL
 
 # Create async engine
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=True)
