@@ -1,0 +1,46 @@
+start docker container: cd to backend
+docker-compose up -d
+will have to add in some data using POST request
+Should mount volume at some point to persist data.
+
+start backend by: cd to backend folder
+source venv/vbin/activate (venv is name of virtual enviornment)
+fastapi run app/main.py  (app is folder main.py is file in folder)
+
+start frontend: cd to frontend folder
+npm run dev
+
+If I make changes to my models.py file later the table in my postgres db will not update automatically.
+
+I can add these changes to my database using alembic
+
+alembic revision --autogenerate -m "Added new column"
+alembic upgrade head
+
+stick to async for I/O bound operations
+sync is fine for CPU based calculations
+if you have to use sync with async look into allocating another thread.
+
+Whenever you try to connect frontend to backend make sure to setup CORS or you won't be able to connect.
+
+http://localhost:8000 and http://0.0.0.0:8000 are not the same thing
+
+if you get an error saying there are too many files being checked on frontend. On linux you might have to increase amount of files that can be watched. Just google how, but it will be inotify something.
+
+if you have an endpoint on backend ("http://localhost:8000/api/recipes/")
+calling "http://localhost:8000/api/recipes" on frontend will not work (missing slash at end)
+
+
+1️⃣ localhost (127.0.0.1)
+localhost is a loopback address that only allows access from the local machine.
+It is mapped to 127.0.0.1, which means only your computer can access it.
+If your application is bound to localhost, it won’t accept connections from other devices on the network.
+2️⃣ 0.0.0.0
+0.0.0.0 is a wildcard address that binds to all available network interfaces.
+Which One Should You Use?
+If you only want to access your server from your local machine → Use localhost.
+If you need to access your server from other devices (e.g., on the same network) → Use 0.0.0.0 but connect via your machine’s actual IP address (e.g., 192.168.1.10:8000).
+This means your application can accept connections from any IP address on your local machine and other devices on the network (if your firewall allows it).
+Why the Difference Between Linux and Windows?
+On Linux, when you bind your application to 0.0.0.0, you can still access it using localhost. That’s because Linux automatically maps 0.0.0.0 to localhost when accessing from the same machine.
+On Windows, 0.0.0.0 doesn’t automatically map to localhost the same way. Instead, you need to explicitly use localhost in your browser.

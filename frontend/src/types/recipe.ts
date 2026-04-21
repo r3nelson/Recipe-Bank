@@ -1,0 +1,12 @@
+export type Recipe = {
+  id: number;
+  name: string;
+  haveCooked: boolean;
+  ingredients: string[];
+  directions: string[];
+  quantityAndType?: string;
+  prepTime?: number;
+  cookTime?: number;
+  rating?: number;
+  imgURL?: string;
+};

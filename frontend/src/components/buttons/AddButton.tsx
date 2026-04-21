@@ -1,0 +1,36 @@
+import { useState } from "react";
+import AddRecipeForm from "../forms/AddRecipeForm";
+import { Recipe } from "../../types/recipe";
+import { createRecipe } from "../../api/recipeAPI";
+
+export default function AddButton() {
+  const [showForm, setShowForm] = useState(false);
+
+  function toggleForm() {
+    setShowForm(!showForm);
+  }
+
+  async function handleSubmit(recipe: Recipe) {
+    await createRecipe(recipe);
+    setShowForm(false);
+    window.location.reload();
+  }
+
+  return (
+    <div>
+      <button
+        onClick={toggleForm}
+        className="h-10 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700 transition "
+      >
+        Add Recipe
+      </button>
+
+      {showForm && (
+        <AddRecipeForm
+          onSubmit={handleSubmit}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+    </div>
+  );
+}
