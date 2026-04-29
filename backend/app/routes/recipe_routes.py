@@ -143,24 +143,32 @@ async def upload_file(recipe_id: int,
     file: UploadFile = File(...),
     current_user: UserRead = user_dependency,
     db: AsyncSession = db_dependency):
-    if not file:
-        raise HTTPException(status_code=400, detail="No file uploaded.")
 
-    # Validate file type (only allow images)
+    recipe = await db.get(DBRecipe, recipe_id)
+    if not recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    if recipe.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to update this recipe")
+
     valid_mime_types = ["image/jpeg", "image/png", "image/gif"]
     mime_type, _ = mimetypes.guess_type(file.filename)
-
     if mime_type not in valid_mime_types:
         raise HTTPException(status_code=400, detail="Invalid file type. Only JPEG, PNG, or GIF allowed.")
 
-    # Generate unique filename
+    # Delete old image before replacing
+    if recipe.imgURL:
+        delete_image(recipe.imgURL)
+
     file_ext = os.path.splitext(file.filename)[1]
     unique_filename = f"{uuid.uuid4().hex}{file_ext}"
     file_path = os.path.join(UPLOAD_DIR, unique_filename)
 
-    # Save file
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+
+    recipe.imgURL = unique_filename
+    await db.commit()
+    await db.refresh(recipe)
 
     return {"filename": unique_filename, "url": f"/api/image/{unique_filename}"}
 
