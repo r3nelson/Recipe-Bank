@@ -2,13 +2,14 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 from contextlib import asynccontextmanager
-from db import wait_for_db
+from db import wait_for_db, create_tables
 from routes.auth_routes import auth_router
 from routes.recipe_routes import recipe_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await wait_for_db()
+    await create_tables()
     yield
 
 app = FastAPI(lifespan=lifespan)

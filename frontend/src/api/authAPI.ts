@@ -54,8 +54,15 @@ export async function register(user: UserCreate) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Registration failed");
+      const errorText = await response.text();
+      let message = errorText || "Registration failed";
+      try {
+        const errorData = JSON.parse(errorText);
+        message = errorData.detail || errorData.message || message;
+      } catch {
+        // Response was plain text, such as "Internal Server Error".
+      }
+      throw new Error(message);
     }
 
     const data = await response.json();
