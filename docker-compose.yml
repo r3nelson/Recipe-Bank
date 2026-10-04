@@ -1,5 +1,4 @@
 services:
-<<<<<<< HEAD
   backend:
     image: recipe_backend:1.0
     container_name: recipe_backend
@@ -17,8 +16,6 @@ services:
     restart: unless-stopped
     networks:
       - recipe-network
-=======
->>>>>>> origin/main
   db:
     image: postgres
     container_name: recipe_db
@@ -28,7 +25,6 @@ services:
       POSTGRES_DB: recipe_db
     ports:
       - "5432:5432"
-<<<<<<< HEAD
     volumes:
       - recipe_db_data:/var/lib/postgresql/data
     healthcheck:
@@ -39,15 +35,12 @@ services:
     restart: unless-stopped
     networks:
       - recipe-network
-=======
->>>>>>> origin/main
   adminer:
     image: adminer
     container_name: adminer
     restart: always
     ports:
       - 8080:8080
-<<<<<<< HEAD
     networks:
       - recipe-network
   frontend:
@@ -75,5 +68,3 @@ volumes:
 networks:
   recipe-network:
     driver: bridge
-=======
->>>>>>> origin/main
