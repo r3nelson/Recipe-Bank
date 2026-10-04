@@ -1,8 +1,8 @@
 import { UserCreate, UserLogin } from "../types/user";
 
-// If you have issue with CORS try swapping localhost to 127.0.0.1 or vice versa
-const baseURL = "http://localhost:8000/auth";
-// const baseURL = "http://127.0.0.1:8000/auth";
+// Use the same host as the page. localhost and 127.0.0.1 do not share cookies.
+export const apiOrigin = `http://${window.location.hostname}:8000`;
+const baseURL = `${apiOrigin}/auth`;
 
 // Here to check why I'm getting a 403 on Add Recipe and Edit Recipe
 console.log(`login status: ${await checkLoginStatus()}`);

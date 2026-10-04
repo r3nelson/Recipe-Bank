@@ -1,9 +1,6 @@
 import { Recipe } from "../types/recipe";
-import { getCSRFToken, fetchWithAuthRetry } from "./authAPI";
+import { apiOrigin, getCSRFToken, fetchWithAuthRetry } from "./authAPI";
 
-// If you have issue with CORS try swapping localhost to 127.0.0.1 or vice versa
-const apiOrigin = "http://localhost:8000";
-// const apiOrigin = "http://127.0.0.1:8000";
 const baseURL = `${apiOrigin}/api/recipes`;
 
 export async function fetchRecipes(): Promise<Recipe[]> {
@@ -199,6 +196,5 @@ export async function deleteRecipe(recipe_id: number) {
 
 export function getImageUrl(filename: string) {
   if (!filename) return "";
-  //   return `http://127.0.0.1:8000/api/image/${filename}`;
-  return `http://localhost:8000/api/image/${filename}`;
+  return `${apiOrigin}/api/image/${filename}`;
 }
