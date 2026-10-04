@@ -10,8 +10,8 @@ export default function AddButton() {
     setShowForm(!showForm);
   }
 
-  async function handleSubmit(recipe: Recipe) {
-    await createRecipe(recipe);
+  async function handleSubmit(recipe: Recipe, file: File | null) {
+    await createRecipe(recipe, file);
     setShowForm(false);
     window.location.reload();
   }

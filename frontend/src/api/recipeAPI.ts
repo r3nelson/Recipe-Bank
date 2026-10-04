@@ -119,12 +119,18 @@ export async function updateRecipe(
   recipe: Recipe,
   file: File | null = null,
 ) {
+  const body = toRecipeBody(recipe);
+  // A new file is stored by the upload endpoint, which replaces imgURL.
+  if (file) {
+    delete body.imgURL;
+  }
+
   const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(toRecipeBody(recipe)),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {

@@ -16,9 +16,9 @@ export default function EditButton({ recipe_id }: EditButtonProps) {
     setShowForm(!showForm);
   }
 
-  async function handleUpdate(recipe: Recipe) {
+  async function handleUpdate(recipe: Recipe, file: File | null) {
     if (recipe_id === null) return;
-    await updateRecipe(recipe_id, recipe);
+    await updateRecipe(recipe_id, recipe, file);
     setShowForm(false);
     window.location.reload();
   }

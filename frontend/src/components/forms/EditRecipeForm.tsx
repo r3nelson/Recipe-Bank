@@ -7,7 +7,7 @@ import Required from "../Required";
 type EditRecipeFormProps = {
   recipe: Recipe;
   onCancel: () => void;
-  onUpdate: (updatedRecipe: Recipe) => void | Promise<void>;
+  onUpdate: (updatedRecipe: Recipe, file: File | null) => void | Promise<void>;
 };
 
 export default function EditRecipeForm({
@@ -25,8 +25,7 @@ export default function EditRecipeForm({
   const [prepTime, setPrepTime] = useState(recipe.prepTime);
   const [cookTime, setCookTime] = useState(recipe.cookTime);
   const [rating, setRating] = useState(recipe.rating);
-  const [imgURL, setImgURL] = useState(recipe.imgURL);
-  //   const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const [editingIngredientIndex, setEditingIngredientIndex] = useState<
     number | null
@@ -36,6 +35,8 @@ export default function EditRecipeForm({
   >(null);
   const [updatedIngredient, setUpdatedIngredient] = useState("");
   const [updatedDirection, setUpdatedDirection] = useState("");
+  const [newIngredient, setNewIngredient] = useState("");
+  const [newDirection, setNewDirection] = useState("");
 
   useEffect(() => {
     setName(recipe.name);
@@ -46,6 +47,7 @@ export default function EditRecipeForm({
     setPrepTime(recipe.prepTime);
     setCookTime(recipe.cookTime);
     setRating(recipe.rating);
+    setFile(null);
   }, [recipe]);
 
   const handleUpdateIngredient = (index: number) => {
@@ -61,6 +63,25 @@ export default function EditRecipeForm({
     setDirections(updatedDirections);
     setEditingDirectionIndex(null);
   };
+
+  function handleAddIngredient() {
+    const ingredient = newIngredient.trim();
+    if (ingredient === "") return;
+    setIngredients([...ingredients, ingredient]);
+    setNewIngredient("");
+  }
+
+  function handleAddDirection() {
+    const direction = newDirection.trim();
+    if (direction === "") return;
+    setDirections([...directions, direction]);
+    setNewDirection("");
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const selected = event.target.files?.[0] ?? null;
+    setFile(selected);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -81,7 +102,7 @@ export default function EditRecipeForm({
     };
 
     try {
-      await onUpdate(updatedRecipe);
+      await onUpdate(updatedRecipe, file);
     } catch (error) {
       console.error("Update error:", error);
     }
@@ -153,6 +174,21 @@ export default function EditRecipeForm({
             )}
           </div>
         ))}
+        <div className="flex mt-2">
+          <input
+            value={newIngredient}
+            placeholder="1/2 cup milk"
+            onChange={(e) => setNewIngredient(e.target.value)}
+            className="border w-full p-1"
+          />
+          <button
+            type="button"
+            onClick={handleAddIngredient}
+            className="bg-blue-500 text-white px-2 ml-2"
+          >
+            Add
+          </button>
+        </div>
       </div>
 
       <div className="mt-4">
@@ -204,6 +240,21 @@ export default function EditRecipeForm({
             )}
           </div>
         ))}
+        <div className="flex mt-2">
+          <input
+            value={newDirection}
+            placeholder="Mix the ingredients"
+            onChange={(e) => setNewDirection(e.target.value)}
+            className="border w-full p-1"
+          />
+          <button
+            type="button"
+            onClick={handleAddDirection}
+            className="bg-blue-500 text-white px-2 ml-2"
+          >
+            Add
+          </button>
+        </div>
       </div>
 
       {/* <label className="block mt-2">
@@ -281,15 +332,21 @@ export default function EditRecipeForm({
           className="ml-2"
         />
       </label>
-      {/* <ImageUpload setFile={setFile} file={file} /> */}
       <label className="block mt-2">
-        Image URL:
+        Upload Image:
         <input
-          value={imgURL}
-          onChange={(e) => setImgURL(e.target.value)}
+          type="file"
+          accept="image/jpeg,image/png,image/gif"
+          onChange={handleFileChange}
           className="border w-full p-1"
-          placeholder="https://example.com/image.jpg"
         />
+        {file ? (
+          <p className="text-sm mt-1">Selected: {file.name}</p>
+        ) : (
+          recipe.imgURL && (
+            <p className="text-sm mt-1">Current image: {recipe.imgURL}</p>
+          )
+        )}
       </label>
       <div className="mt-4 flex justify-between">
         <button

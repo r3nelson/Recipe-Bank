@@ -4,6 +4,10 @@ import { UserCreate, UserLogin } from "../types/user";
 const baseURL = "http://localhost:8000/auth";
 // const baseURL = "http://127.0.0.1:8000/auth";
 
+// Here to check why I'm getting a 403 on Add Recipe and Edit Recipe
+console.log(`login status: ${await checkLoginStatus()}`);
+console.log("Me: ", await getUserInfo());
+
 export async function login(user: UserLogin) {
   try {
     const response = await fetch(`${baseURL}/login`, {
