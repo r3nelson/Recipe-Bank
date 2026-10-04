@@ -1,5 +1,9 @@
 import { Recipe } from "../types/recipe";
+<<<<<<< HEAD
+import SectionHeader from "./recipeCard components/SectionHeader";
+=======
 import SectionHeader from "./SectionHeader";
+>>>>>>> origin/main
 import SearchBar from "./SearchBar";
 import { useState } from "react";
 
@@ -41,25 +45,47 @@ export default function AllRecipes({
           {!hideRecipes && (
             <>
               <SectionHeader header="All Recipes"></SectionHeader>
+<<<<<<< HEAD
+              {recipeNamesAndIds.length === 0 ? (
+                <p className="text-gray-600 mt-4">
+                  No recipes yet — start adding recipes below!
+                </p>
+              ) : (
+                <ul className={`text-md grid grid-cols-${numCols}`}>
+                  {recipeNamesAndIds.map((recipe, index) => (
+                    <li
+                      className="cursor-pointer hover:bg-gray-200"
+=======
               <ul className={`text-md    grid grid-cols-${numCols}`}>
                 {recipeNamesAndIds.map((recipe, index) => {
                   //   const isLastCol = (index + 1) % numCols === 0;
                   return (
                     <li
                       className={`cursor-pointer hover:bg-gray-200`}
+>>>>>>> origin/main
                       key={index}
                       onClick={() => updateRecipeId(recipe[1])}
                     >
                       {recipe[0]}
                     </li>
+<<<<<<< HEAD
+                  ))}
+                </ul>
+              )}
+=======
                   );
                 })}
               </ul>
+>>>>>>> origin/main
             </>
           )}
         </div>
       ) : (
+<<<<<<< HEAD
+        <button className="p-2 m-5 cursor-pointer hover:bg-stone-50">
+=======
         <button className="border p-2 m-5 cursor-pointer hover:bg-gray-200">
+>>>>>>> origin/main
           All Recipes
         </button>
       )}

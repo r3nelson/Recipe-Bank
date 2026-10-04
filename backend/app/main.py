@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import Response
+from contextlib import asynccontextmanager
+from db import wait_for_db
+from routes.auth_routes import auth_router
+from routes.recipe_routes import recipe_router
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await wait_for_db()
+=======
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -8,6 +21,7 @@ from .routes.recipe_routes import recipe_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await create_tables() # Ensure tables exist before app starts
+>>>>>>> origin/main
     yield
 
 app = FastAPI(lifespan=lifespan)
@@ -15,17 +29,32 @@ app = FastAPI(lifespan=lifespan)
 # CORS config
 origins = [
     # allowed origins
+<<<<<<< HEAD
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    # "http://0.0.0.0:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+=======
     "http://localhost:5173"
 ]
 
 app.add_middleware(CORSMiddleware,
     allow_origins= origins,
+>>>>>>> origin/main
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
     )
 
 app.include_router(auth_router, prefix='/auth', tags=['Auth'])
+<<<<<<< HEAD
+app.include_router(recipe_router, prefix='/api', tags=['Recipes'])
+=======
 app.include_router(recipe_router, prefix='/api', tags=['Recipes'])
 
 
+>>>>>>> origin/main

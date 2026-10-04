@@ -1,4 +1,9 @@
 import { Recipe } from "../types/recipe";
+<<<<<<< HEAD
+import UserProfile from "./UserProfile";
+
+=======
+>>>>>>> origin/main
 type NavbarProps = {
   recipes: Recipe[];
 };
@@ -18,9 +23,13 @@ export default function Navbar({ recipes }: NavbarProps) {
           {/* Recipe book icons created by BZZRINCANTATION - Flaticon */}
         </a>
       </div>
+<<<<<<< HEAD
+      <UserProfile />
+=======
       <div className="w-14 h-14 bg-blue-300 text-white flex items-center justify-center rounded-full text-lg font-bold">
         MV
       </div>
+>>>>>>> origin/main
     </div>
   );
 }

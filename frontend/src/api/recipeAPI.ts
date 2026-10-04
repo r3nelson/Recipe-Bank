@@ -1,4 +1,20 @@
 import { Recipe } from "../types/recipe";
+<<<<<<< HEAD
+import { getCSRFToken, fetchWithAuthRetry } from "./authAPI";
+
+// If you have issue with CORS try swapping localhost to 127.0.0.1 or vice versa
+const apiOrigin = "http://localhost:8000";
+// const apiOrigin = "http://127.0.0.1:8000";
+const baseURL = `${apiOrigin}/api/recipes`;
+
+export async function fetchRecipes(): Promise<Recipe[]> {
+  try {
+    const response = await fetchWithAuthRetry(`${baseURL}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+=======
 
 // const baseURL = "http://0.0.0.0:8000/api/recipes";
 const baseURL = "http://localhost:8000/api/recipes";
@@ -6,11 +22,17 @@ const baseURL = "http://localhost:8000/api/recipes";
 export async function fetchRecipes(): Promise<Recipe[]> {
   const response = await fetch(baseURL);
   try {
+>>>>>>> origin/main
     if (!response.ok) {
       throw new Error(`Failed to fetch recipes: ${response.statusText}`);
     }
 
+<<<<<<< HEAD
+    const data: Recipe[] = await response.json();
+    return data;
+=======
     return await response.json();
+>>>>>>> origin/main
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return [];
@@ -18,12 +40,26 @@ export async function fetchRecipes(): Promise<Recipe[]> {
 }
 
 export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
+<<<<<<< HEAD
+  try {
+    const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch recipes: ${response.statusText}`);
+    }
+    const data: Recipe = await response.json();
+    return data;
+=======
   const response = await fetch(`${baseURL}/${recipe_id}`);
   try {
     if (!response.ok) {
       throw new Error(`Failed to fetch recipes: ${response.statusText}`);
     }
     return await response.json();
+>>>>>>> origin/main
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return null;
@@ -31,8 +67,17 @@ export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
 }
 
 export async function getIds(): Promise<number[]> {
+<<<<<<< HEAD
+  try {
+    const response = await fetchWithAuthRetry(`${baseURL}-ids`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+=======
   const response = await fetch(`${baseURL}-ids`);
   try {
+>>>>>>> origin/main
     if (!response.ok) {
       throw new Error(`Failed to fetch ids: ${response.statusText}`);
     }
@@ -44,6 +89,86 @@ export async function getIds(): Promise<number[]> {
   }
 }
 
+<<<<<<< HEAD
+function toRecipeBody(recipe: Recipe) {
+  return {
+    name: recipe.name,
+    haveCooked: recipe.haveCooked,
+    ingredients: recipe.ingredients,
+    directions: recipe.directions,
+    quantityAndType: recipe.quantityAndType,
+    prepTime: recipe.prepTime,
+    cookTime: recipe.cookTime,
+    rating: recipe.rating,
+    imgURL: recipe.imgURL,
+  };
+}
+
+async function uploadRecipeImage(recipeId: number, file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetchWithAuthRetry(
+    `${apiOrigin}/api/upload?recipe_id=${recipeId}`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Image upload failed");
+  }
+}
+
+export async function createRecipe(recipe: Recipe, file: File | null) {
+  const response = await fetchWithAuthRetry(baseURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(toRecipeBody(recipe)),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to add recipe");
+  }
+
+  const created: Recipe = await response.json();
+
+  if (file) {
+    await uploadRecipeImage(created.id, file);
+  }
+
+  return created;
+}
+
+export async function updateRecipe(
+  recipe_id: number,
+  recipe: Recipe,
+  file: File | null = null,
+) {
+  const body = toRecipeBody(recipe);
+  // A new file is stored by the upload endpoint, which replaces imgURL.
+  if (file) {
+    delete body.imgURL;
+  }
+
+  const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update recipe");
+  }
+
+  if (file) {
+    await uploadRecipeImage(recipe_id, file);
+=======
 export async function createRecipe(recipe: Recipe) {
   try {
     const response = await fetch(baseURL, {
@@ -83,21 +208,79 @@ export async function updateRecipe(recipe_id: number, recipe: Recipe) {
     console.log(`Recipe ${recipe.name} updated successfully!`);
   } catch (error) {
     console.error("Error:", error);
+>>>>>>> origin/main
   }
 }
 
 export async function deleteRecipe(recipe_id: number) {
   try {
+<<<<<<< HEAD
+    const csrfToken = getCSRFToken();
+    const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "X-CSRF-Token": csrfToken,
+      },
+=======
     const response = await fetch(`${baseURL}/${recipe_id}`, {
       method: "DELETE",
+>>>>>>> origin/main
     });
 
     if (!response.ok) {
       throw new Error(`Failed to delete recipe with ID ${recipe_id}`);
     }
 
+<<<<<<< HEAD
+    console.log(`Recipe deleted successfully`);
+=======
     console.log(`Recipe with ID ${recipe_id} deleted successfully`);
+>>>>>>> origin/main
   } catch (error) {
     console.error(error);
   }
 }
+<<<<<<< HEAD
+
+// export async function uploadImage(file: File | null) {
+//   if (!file) return "";
+
+//   const formData = new FormData();
+//   formData.append("file", file);
+
+//   try {
+//     const csrfToken = getCSRFToken();
+//     const response = await fetchWithAuthRetry(
+//       `http://127.0.0.1:8000/api/upload`,
+//       {
+//         method: "POST",
+//         credentials: "include",
+//         headers: {
+//           "X-CSRF-Token": csrfToken,
+//         },
+//         body: formData,
+//       }
+//     );
+
+//     if (!response.ok) {
+//       throw new Error("Image upload failed!");
+//     }
+
+//     const data = await response.json();
+
+//     // Use the URL returned by the backend
+//     return data.url; // /images/unique-filename.jpg
+//   } catch (error) {
+//     console.error("Upload error:", error);
+//     return "";
+//   }
+// }
+
+export function getImageUrl(filename: string) {
+  if (!filename) return "";
+  //   return `http://127.0.0.1:8000/api/image/${filename}`;
+  return `http://localhost:8000/api/image/${filename}`;
+}
+=======
+>>>>>>> origin/main

@@ -13,6 +13,10 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 JWT_KEY = os.getenv("JWT_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+<<<<<<< HEAD
+REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"))
+=======
+>>>>>>> origin/main
 
 ## S3
 # AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
