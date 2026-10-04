@@ -1,8 +1,7 @@
 import { UserCreate, UserLogin } from "../types/user";
 
-// Use the same host as the page. localhost and 127.0.0.1 do not share cookies.
-export const apiOrigin = `http://${window.location.hostname}:8000`;
-const baseURL = `${apiOrigin}/auth`;
+// Same origin as the page. Vite proxies /auth to the backend.
+const baseURL = "/auth";
 
 // Here to check why I'm getting a 403 on Add Recipe and Edit Recipe
 console.log(`login status: ${await checkLoginStatus()}`);

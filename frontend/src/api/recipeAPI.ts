@@ -1,7 +1,7 @@
 import { Recipe } from "../types/recipe";
-import { apiOrigin, getCSRFToken, fetchWithAuthRetry } from "./authAPI";
+import { getCSRFToken, fetchWithAuthRetry } from "./authAPI";
 
-const baseURL = `${apiOrigin}/api/recipes`;
+const baseURL = "/api/recipes";
 
 export async function fetchRecipes(): Promise<Recipe[]> {
   try {
@@ -77,7 +77,7 @@ async function uploadRecipeImage(recipeId: number, file: File) {
   formData.append("file", file);
 
   const response = await fetchWithAuthRetry(
-    `${apiOrigin}/api/upload?recipe_id=${recipeId}`,
+    `/api/upload?recipe_id=${recipeId}`,
     {
       method: "POST",
       body: formData,
@@ -196,5 +196,5 @@ export async function deleteRecipe(recipe_id: number) {
 
 export function getImageUrl(filename: string) {
   if (!filename) return "";
-  return `${apiOrigin}/api/image/${filename}`;
+  return `/api/image/${filename}`;
 }

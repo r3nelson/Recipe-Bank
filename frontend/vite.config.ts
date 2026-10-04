@@ -11,5 +11,15 @@ export default defineConfig({
     watch: {
       usePolling: true, // forces Vite to poll for file changes (fixes live reload in Docker)
     },
+    proxy: {
+      "/auth": {
+        target: process.env.API_PROXY_TARGET ?? "http://backend:8000",
+        changeOrigin: true,
+      },
+      "/api": {
+        target: process.env.API_PROXY_TARGET ?? "http://backend:8000",
+        changeOrigin: true,
+      },
+    },
   },
 });
