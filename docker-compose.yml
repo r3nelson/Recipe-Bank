@@ -17,7 +17,9 @@ services:
     networks:
       - recipe-network
   db:
-    image: postgres
+    # Pin 17. `postgres:latest` is 18+, which rejects a volume mounted at
+    # /var/lib/postgresql/data and then fails this health check.
+    image: postgres:17
     container_name: recipe_db
     environment:
       POSTGRES_USER: postgres
@@ -28,10 +30,11 @@ services:
     volumes:
       - recipe_db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d recipe_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d recipe_db -h 127.0.0.1"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
     restart: unless-stopped
     networks:
       - recipe-network
