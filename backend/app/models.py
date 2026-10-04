@@ -27,10 +27,7 @@ class Recipe(Base):
     cookTime = Column(Integer, nullable=True)
     rating = Column(Float, nullable=True)
     imgURL = Column(String, nullable=True)
-<<<<<<< HEAD
     # img_filename = Column(String, nullable=True)
-=======
->>>>>>> origin/main
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)  # Associate with a user
 
     user = relationship("User", back_populates="recipes")  # Relationship back to User

@@ -1,5 +1,4 @@
 import { Recipe } from "../types/recipe";
-<<<<<<< HEAD
 import { getCSRFToken, fetchWithAuthRetry } from "./authAPI";
 
 // If you have issue with CORS try swapping localhost to 127.0.0.1 or vice versa
@@ -14,25 +13,12 @@ export async function fetchRecipes(): Promise<Recipe[]> {
       credentials: "include",
     });
 
-=======
-
-// const baseURL = "http://0.0.0.0:8000/api/recipes";
-const baseURL = "http://localhost:8000/api/recipes";
-
-export async function fetchRecipes(): Promise<Recipe[]> {
-  const response = await fetch(baseURL);
-  try {
->>>>>>> origin/main
     if (!response.ok) {
       throw new Error(`Failed to fetch recipes: ${response.statusText}`);
     }
 
-<<<<<<< HEAD
     const data: Recipe[] = await response.json();
     return data;
-=======
-    return await response.json();
->>>>>>> origin/main
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return [];
@@ -40,7 +26,6 @@ export async function fetchRecipes(): Promise<Recipe[]> {
 }
 
 export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
-<<<<<<< HEAD
   try {
     const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
       method: "GET",
@@ -52,14 +37,6 @@ export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
     }
     const data: Recipe = await response.json();
     return data;
-=======
-  const response = await fetch(`${baseURL}/${recipe_id}`);
-  try {
-    if (!response.ok) {
-      throw new Error(`Failed to fetch recipes: ${response.statusText}`);
-    }
-    return await response.json();
->>>>>>> origin/main
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return null;
@@ -67,17 +44,12 @@ export async function fetchRecipe(recipe_id: number): Promise<Recipe | null> {
 }
 
 export async function getIds(): Promise<number[]> {
-<<<<<<< HEAD
   try {
     const response = await fetchWithAuthRetry(`${baseURL}-ids`, {
       method: "GET",
       credentials: "include",
     });
 
-=======
-  const response = await fetch(`${baseURL}-ids`);
-  try {
->>>>>>> origin/main
     if (!response.ok) {
       throw new Error(`Failed to fetch ids: ${response.statusText}`);
     }
@@ -89,7 +61,6 @@ export async function getIds(): Promise<number[]> {
   }
 }
 
-<<<<<<< HEAD
 function toRecipeBody(recipe: Recipe) {
   return {
     name: recipe.name,
@@ -168,53 +139,11 @@ export async function updateRecipe(
 
   if (file) {
     await uploadRecipeImage(recipe_id, file);
-=======
-export async function createRecipe(recipe: Recipe) {
-  try {
-    const response = await fetch(baseURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(recipe),
-    });
-    console.log(JSON.stringify(recipe));
-
-    if (!response.ok) {
-      throw new Error("Failed to add recipe");
-    }
-
-    console.log("Recipe added successfully!");
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-export async function updateRecipe(recipe_id: number, recipe: Recipe) {
-  try {
-    const response = await fetch(`${baseURL}/${recipe_id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(recipe),
-    });
-    console.log(JSON.stringify(recipe));
-
-    if (!response.ok) {
-      throw new Error("Failed to add recipe");
-    }
-
-    console.log(`Recipe ${recipe.name} updated successfully!`);
-  } catch (error) {
-    console.error("Error:", error);
->>>>>>> origin/main
   }
 }
 
 export async function deleteRecipe(recipe_id: number) {
   try {
-<<<<<<< HEAD
     const csrfToken = getCSRFToken();
     const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
       method: "DELETE",
@@ -222,26 +151,17 @@ export async function deleteRecipe(recipe_id: number) {
       headers: {
         "X-CSRF-Token": csrfToken,
       },
-=======
-    const response = await fetch(`${baseURL}/${recipe_id}`, {
-      method: "DELETE",
->>>>>>> origin/main
     });
 
     if (!response.ok) {
       throw new Error(`Failed to delete recipe with ID ${recipe_id}`);
     }
 
-<<<<<<< HEAD
     console.log(`Recipe deleted successfully`);
-=======
-    console.log(`Recipe with ID ${recipe_id} deleted successfully`);
->>>>>>> origin/main
   } catch (error) {
     console.error(error);
   }
 }
-<<<<<<< HEAD
 
 // export async function uploadImage(file: File | null) {
 //   if (!file) return "";
@@ -282,5 +202,3 @@ export function getImageUrl(filename: string) {
   //   return `http://127.0.0.1:8000/api/image/${filename}`;
   return `http://localhost:8000/api/image/${filename}`;
 }
-=======
->>>>>>> origin/main

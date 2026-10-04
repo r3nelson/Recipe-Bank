@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import useGetRecipeByID from "../hooks/useGetRecipeByID";
 import Directions from "./recipeCard components/Directions";
@@ -32,23 +31,6 @@ export default function RecipeCard({
       setShowImage(true);
     }
   }, [recipe]);
-=======
-import useGetRecipeByID from "../hooks/useGetRecipeByID";
-import Directions from "./Directions";
-import Ingredients from "./Ingredients";
-import SectionHeader from "./SectionHeader";
-import HaveCookedBox from "./HaveCookedBox";
-import StarRating from "./StarRating";
-import GeneralRecipeInfo from "./GeneralRecipeInfo";
-import RecipeImage from "./RecipeImage";
-
-type RecipeCardProps = {
-  recipe_id: number;
-};
-
-export default function RecipeCard({ recipe_id }: RecipeCardProps) {
-  const { recipe, isLoading, error } = useGetRecipeByID(recipe_id);
->>>>>>> origin/main
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -84,7 +66,6 @@ export default function RecipeCard({ recipe_id }: RecipeCardProps) {
           <div className="m-5">
             <SectionHeader header="Directions"></SectionHeader>
             <div className="flex justify-between items-center">
-<<<<<<< HEAD
               <div className={showImage ? "w-1/2" : "w-full"}>
                 <Directions directions={recipe.directions} />
               </div>
@@ -104,17 +85,6 @@ export default function RecipeCard({ recipe_id }: RecipeCardProps) {
           <div className="ml-1">|</div>
           <NextButton handleNext={handleNext}></NextButton>
         </div>
-=======
-              <div>
-                <Directions directions={recipe.directions}></Directions>
-              </div>
-              <div className="w-1/2">
-                <RecipeImage imgURL={recipe.imgURL}></RecipeImage>
-              </div>
-            </div>
-          </div>
-        </div>
->>>>>>> origin/main
       </div>
     );
   }

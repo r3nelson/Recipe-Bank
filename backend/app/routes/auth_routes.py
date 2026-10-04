@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import secrets
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
@@ -10,17 +9,6 @@ from auth import hash_password, verify_password, verify_csrf_token, create_acces
 from schemas import  UserCreate, UserRead, UserLogin, Token
 from models import User as DBUser
 from db import get_db
-=======
-from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.future import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from ..auth import hash_password, verify_password, create_access_token, get_current_user
-from ..schemas import  UserCreate, UserRead, UserLogin, Token
-from ..models import User as DBUser
-from ..db import get_db
->>>>>>> origin/main
 
 
 auth_router = APIRouter()
@@ -47,26 +35,8 @@ async def register(user: UserCreate, db: AsyncSession = db_dependency):
 
     return db_user
 
-<<<<<<< HEAD
 @auth_router.post("/login")
 async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = db_dependency):
-=======
-# @auth_router.post("/login", response_model=Token)
-# async def login(user: UserLogin, db: AsyncSession = db_dependency):
-#     # Check if user exists
-#     result = await db.execute(select(DBUser).filter(DBUser.email == user.email))
-#     db_user = result.scalars().first()
-
-#     if not db_user or not verify_password(user.password, db_user.hashed_password):
-#         raise HTTPException(status_code=401, detail="Invalid credentials")
-
-#     # Generate JWT Token
-#     access_token = create_access_token({"user_id": db_user.id})
-#     return {"access_token": access_token, "token_type": "bearer"}
-
-@auth_router.post("/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = db_dependency):
->>>>>>> origin/main
     # OAuth2PasswordRequestForm contains .username and .password
     result = await db.execute(select(DBUser).filter(DBUser.email == form_data.username))
     db_user = result.scalars().first()
@@ -76,7 +46,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
 
     # Generate JWT Token
     access_token = create_access_token({"user_id": db_user.id})
-<<<<<<< HEAD
     refresh_token = create_refresh_token({"user_id": db_user.id})
     csrf_token = secrets.token_urlsafe(32)
 
@@ -164,14 +133,3 @@ async def read_users_me(current_user: UserRead | None = Depends(get_current_user
     if current_user:
         return {"user_id": current_user.id, "email": current_user.email, "name": current_user.name}
     return {"user": None}
-=======
-    return {"access_token": access_token, "token_type": "bearer"}
-
-## Test Auth Route
-@auth_router.get("/me")
-async def read_users_me(current_user: UserRead = user_dependency):
-    return {"user_id": current_user.id, "email": current_user.email, "name": current_user.name}
-
-
-
->>>>>>> origin/main
