@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import asyncio
 import asyncpg
 from urllib.parse import urlparse, urlunparse
@@ -5,6 +6,13 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from models import Base
 from config import DATABASE_URL
+=======
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker
+from .models import Base
+from .config import DATABASE_URL
+
+>>>>>>> origin/main
 
 # Database URL from Docker (using asyncpg for PostgreSQL)
 SQLALCHEMY_DATABASE_URL = DATABASE_URL
@@ -12,6 +20,7 @@ SQLALCHEMY_DATABASE_URL = DATABASE_URL
 # Create async engine
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=True)
 
+<<<<<<< HEAD
 # function to watit for db to initaliaze before attempting connection
 # docker health check should suffice but included in case change from docker
 async def wait_for_db(retries: int = 10, delay: int = 2):
@@ -31,6 +40,8 @@ async def wait_for_db(retries: int = 10, delay: int = 2):
             await asyncio.sleep(delay)
     raise Exception("Database not ready after multiple attempts")
 
+=======
+>>>>>>> origin/main
 # Function to create tables before session initialization
 async def create_tables():
     async with engine.begin() as conn:

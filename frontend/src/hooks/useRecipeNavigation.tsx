@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 
 export default function useRecipeNavigation(validIds: number[]) {
@@ -18,6 +19,18 @@ export default function useRecipeNavigation(validIds: number[]) {
   function handlePrev() {
     if (recipe_id === null || !validIds.includes(recipe_id)) {
       if (validIds.length > 0) setRecipeId(validIds[0]);
+=======
+import { useState } from "react";
+
+export default function useRecipeNavigation(validIds: number[]) {
+  const [recipe_id, setRecipeId] = useState(1);
+
+  // validIds are sorted by default on backend.
+
+  function handlePrev() {
+    if (!validIds.includes(recipe_id)) {
+      setRecipeId(validIds[0]);
+>>>>>>> origin/main
     } else {
       const index = validIds.indexOf(recipe_id);
       const length = validIds.length;
@@ -27,8 +40,13 @@ export default function useRecipeNavigation(validIds: number[]) {
     }
   }
   function handleNext() {
+<<<<<<< HEAD
     if (recipe_id === null || !validIds.includes(recipe_id)) {
       if (validIds.length > 0) setRecipeId(validIds[0]);
+=======
+    if (!validIds.includes(recipe_id)) {
+      setRecipeId(validIds[0]);
+>>>>>>> origin/main
     } else {
       const index = validIds.indexOf(recipe_id);
       const length = validIds.length;

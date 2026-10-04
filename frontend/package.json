@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+<<<<<<< HEAD
     "dev": "vite --host",
+=======
+    "dev": "vite",
+>>>>>>> origin/main
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -14,13 +18,19 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
+<<<<<<< HEAD
     "react-router-dom": "^7.5.0",
+=======
+>>>>>>> origin/main
     "tailwindcss": "^4.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+<<<<<<< HEAD
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
+=======
+>>>>>>> origin/main
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -30,6 +40,10 @@
     "globals": "^15.14.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
+<<<<<<< HEAD
     "vite": "^6.2.5"
+=======
+    "vite": "^6.2.1"
+>>>>>>> origin/main
   }
 }

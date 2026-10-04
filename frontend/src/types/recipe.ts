@@ -10,3 +10,10 @@ export type Recipe = {
   rating?: number;
   imgURL?: string;
 };
+<<<<<<< HEAD
+=======
+
+// export type Ingredient = {
+//   nameAndQuantity: string;
+// };
+>>>>>>> origin/main

@@ -1,0 +1,92 @@
+"ingredients": [
+  {
+    "name": "penne pasta",
+    "measurement_type": "oz",
+    "quantity": 12
+  },
+  {
+    "name": "olive oil",
+    "measurement_type": "tbsp",
+    "quantity": 2
+  },
+  {
+    "name": "garlic cloves",
+    "measurement_type": "clove",
+    "quantity": 3
+  },
+  {
+    "name": "parmesan cheese",
+    "measurement_type": "cup",
+    "quantity": 0.5
+  },
+  {
+    "name": "cherry tomatoes",
+    "measurement_type": "cup",
+    "quantity": 1
+  },
+  {
+    "name": "fresh basil",
+    "measurement_type": "tbsp",
+    "quantity": 2
+  }
+],
+"ingredients": [
+  {
+    "name": "eggs",
+    "measurement_type": "large",
+    "quantity": 3
+  },
+  {
+    "name": "milk",
+    "measurement_type": "tbsp",
+    "quantity": 2
+  },
+  {
+    "name": "cheddar cheese",
+    "measurement_type": "cup",
+    "quantity": 0.25
+  },
+  {
+    "name": "bell pepper",
+    "measurement_type": "cup",
+    "quantity": 0.5
+  },
+  {
+    "name": "salt",
+    "measurement_type": "tsp",
+    "quantity": 0.25
+  },
+  {
+    "name": "black pepper",
+    "measurement_type": "tsp",
+    "quantity": 0.25
+  }
+],
+"ingredients": [
+  {
+    "name": "ribeye steak",
+    "measurement_type": "lb",
+    "quantity": 1
+  },
+  {
+    "name": "soy sauce",
+    "measurement_type": "tbsp",
+    "quantity": 3
+  },
+  {
+    "name": "honey",
+    "measurement_type": "tbsp",
+    "quantity": 1
+  },
+  {
+    "name": "garlic powder",
+    "measurement_type": "tsp",
+    "quantity": 1
+  },
+  {
+    "name": "black pepper",
+    "measurement_type": "tsp",
+    "quantity": 0.5
+  }
+]
+

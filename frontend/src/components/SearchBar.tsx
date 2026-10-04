@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { Recipe } from "../types/recipe";
 import SectionHeader from "./recipeCard components/SectionHeader";
+=======
+import { useState, useEffect } from "react";
+import { Recipe } from "../types/recipe";
+import SectionHeader from "./SectionHeader";
+>>>>>>> origin/main
 
 type SearchBarProps = {
   recipes: Recipe[];
