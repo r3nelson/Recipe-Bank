@@ -7,7 +7,7 @@ import Required from "../Required";
 type EditRecipeFormProps = {
   recipe: Recipe;
   onCancel: () => void;
-  onUpdate: (updatedRecipe: Recipe) => void;
+  onUpdate: (updatedRecipe: Recipe) => void | Promise<void>;
 };
 
 export default function EditRecipeForm({
@@ -81,7 +81,7 @@ export default function EditRecipeForm({
     };
 
     try {
-      onUpdate(updatedRecipe);
+      await onUpdate(updatedRecipe);
     } catch (error) {
       console.error("Update error:", error);
     }

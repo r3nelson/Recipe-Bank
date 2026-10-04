@@ -1,7 +1,7 @@
 import { deleteRecipe } from "../../api/recipeAPI";
 
 type DeleteButtonProps = {
-  recipe_id: number;
+  recipe_id: number | null;
   onDeleted: (deleted_id: number) => void;
 };
 
@@ -10,6 +10,8 @@ export default function DeleteButton({
   onDeleted,
 }: DeleteButtonProps) {
   async function handleDelete() {
+    if (recipe_id === null) return;
+
     const confirmed = window.confirm(`Do you want to delete recipe?`);
     if (!confirmed) return;
 

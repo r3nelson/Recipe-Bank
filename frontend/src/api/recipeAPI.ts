@@ -2,8 +2,9 @@ import { Recipe } from "../types/recipe";
 import { getCSRFToken, fetchWithAuthRetry } from "./authAPI";
 
 // If you have issue with CORS try swapping localhost to 127.0.0.1 or vice versa
-const baseURL = "http://localhost:8000/api/recipes";
-// const baseURL = "http://127.0.0.1:8000/api/recipes";
+const apiOrigin = "http://localhost:8000";
+// const apiOrigin = "http://127.0.0.1:8000";
+const baseURL = `${apiOrigin}/api/recipes`;
 
 export async function fetchRecipes(): Promise<Recipe[]> {
   try {
@@ -60,89 +61,78 @@ export async function getIds(): Promise<number[]> {
   }
 }
 
-export async function createRecipe(recipe: Recipe, file: File | null) {
-  try {
-    const csrfToken = getCSRFToken();
-    const formData = new FormData();
+function toRecipeBody(recipe: Recipe) {
+  return {
+    name: recipe.name,
+    haveCooked: recipe.haveCooked,
+    ingredients: recipe.ingredients,
+    directions: recipe.directions,
+    quantityAndType: recipe.quantityAndType,
+    prepTime: recipe.prepTime,
+    cookTime: recipe.cookTime,
+    rating: recipe.rating,
+    imgURL: recipe.imgURL,
+  };
+}
 
-    // Add recipe fields
-    Object.entries(recipe).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        // Convert arrays to JSON strings
-        if (Array.isArray(value)) {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, String(value));
-        }
-      }
-    });
+async function uploadRecipeImage(recipeId: number, file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
 
-    // Add image file if provided
-    if (file) {
-      formData.append("file", file);
-    }
-
-    const response = await fetchWithAuthRetry(baseURL, {
+  const response = await fetchWithAuthRetry(
+    `${apiOrigin}/api/upload?recipe_id=${recipeId}`,
+    {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
       body: formData,
-    });
+    },
+  );
 
-    if (!response.ok) {
-      throw new Error("Failed to add recipe");
-    }
-
-    console.log("Recipe added successfully!");
-  } catch (error) {
-    console.error("Error:", error);
+  if (!response.ok) {
+    throw new Error("Image upload failed");
   }
+}
+
+export async function createRecipe(recipe: Recipe, file: File | null) {
+  const response = await fetchWithAuthRetry(baseURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(toRecipeBody(recipe)),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to add recipe");
+  }
+
+  const created: Recipe = await response.json();
+
+  if (file) {
+    await uploadRecipeImage(created.id, file);
+  }
+
+  return created;
 }
 
 export async function updateRecipe(
   recipe_id: number,
   recipe: Recipe,
-  file: File | null,
+  file: File | null = null,
 ) {
-  try {
-    const csrfToken = getCSRFToken();
-    const formData = new FormData();
+  const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(toRecipeBody(recipe)),
+  });
 
-    // Add recipe fields
-    Object.entries(recipe).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        // Convert arrays to JSON strings
-        if (Array.isArray(value)) {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, String(value));
-        }
-      }
-    });
+  if (!response.ok) {
+    throw new Error("Failed to update recipe");
+  }
 
-    // Add image file if provided
-    if (file) {
-      formData.append("file", file);
-    }
-
-    const response = await fetchWithAuthRetry(`${baseURL}/${recipe_id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update recipe");
-    }
-
-    console.log(`Recipe ${recipe.name} updated successfully!`);
-  } catch (error) {
-    console.error("Error:", error);
+  if (file) {
+    await uploadRecipeImage(recipe_id, file);
   }
 }
 

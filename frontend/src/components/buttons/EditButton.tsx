@@ -5,7 +5,7 @@ import { updateRecipe } from "../../api/recipeAPI";
 import useGetRecipeByID from "../../hooks/useGetRecipeByID";
 
 type EditButtonProps = {
-  recipe_id: number;
+  recipe_id: number | null;
 };
 
 export default function EditButton({ recipe_id }: EditButtonProps) {
@@ -17,6 +17,7 @@ export default function EditButton({ recipe_id }: EditButtonProps) {
   }
 
   async function handleUpdate(recipe: Recipe) {
+    if (recipe_id === null) return;
     await updateRecipe(recipe_id, recipe);
     setShowForm(false);
     window.location.reload();

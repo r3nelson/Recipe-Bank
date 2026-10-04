@@ -40,7 +40,7 @@ export default function Home() {
         ></AllRecipes>
       </div>
 
-      {showRecipeCard && (
+      {showRecipeCard && recipe_id !== null && (
         <div className="flex justify-center items-center">
           <RecipeCard
             recipe_id={recipe_id}
